@@ -1,4 +1,4 @@
-RAG-Based YouTube Chatbot (Local FAISS Version)
+RAG-Based YouTube Chatbot 
 
 Developed by: Sohan Ghosh
 Program: MSc Data Science & AI
@@ -11,6 +11,26 @@ This project implements a Retrieval-Augmented Generation (RAG) chatbot that can 
 The application uses LangChain for orchestration, FAISS for vector similarity search, HuggingFace for embeddings, and Google Gemini for response generation — all combined in a user-friendly Streamlit interface.
 
 This implementation runs fully on local setup — ideal for academic or research use without requiring cloud deployment.
+
+## 🧾 Proof of Work (Screenshots)
+
+Below are the working proofs from the local Streamlit app:
+
+### 1️⃣ Transcript Extraction & Knowledge Base Build
+<p align="center">
+  <img src="assets/1_home.jpg" alt="App Home - Transcript Extracted" width="800"/>
+</p>
+
+### 2️⃣ Asking Questions from the Video
+<p align="center">
+  <img src="assets/ask.jpg" alt="Ask Question - RAG Query" width="800"/>
+</p>
+
+### 3️⃣ Gemini Generating Detailed Summaries
+<p align="center">
+  <img src="assets/summary.jpg" alt="Gemini Summary Output" width="800"/>
+</p>
+
 
 2. Key Features
 
