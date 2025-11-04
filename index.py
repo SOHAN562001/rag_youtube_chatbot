@@ -1,29 +1,27 @@
 # index.py
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-
-def build_faiss_index(transcript_text: str):
+def build_faiss_index(transcript_text):
     """
-    Builds a FAISS retriever index from YouTube transcript text.
-    Returns a retriever object for RAG search.
+    Build a vector index for the given transcript text.
+    Uses Chroma (pure Python, Streamlit Cloud–compatible) instead of FAISS.
     """
-    # ---- Split transcript into smaller chunks ----
+    # Step 1: Split the transcript into overlapping chunks
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
-        chunk_overlap=150,
-        length_function=len
+        chunk_overlap=200,
+        separators=["\n\n", "\n", ".", "!", "?"]
     )
-    chunks = text_splitter.split_text(transcript_text)
-    print(f"✅ Split transcript into {len(chunks)} chunks")
+    docs = text_splitter.create_documents([transcript_text])
 
-    # ---- Create sentence embeddings ----
+    # Step 2: Convert text chunks into embeddings
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
-    # ---- Build FAISS vector index ----
-    vectorstore = FAISS.from_texts(chunks, embedding=embeddings)
-    retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
+    # Step 3: Create a Chroma-based vectorstore
+    vectorstore = Chroma.from_documents(docs, embeddings)
 
-    print("✅ FAISS vector index built successfully!")
+    # Step 4: Return retriever object for similarity search
+    retriever = vectorstore.as_retriever(search_kwargs={"k": 3})
     return retriever
